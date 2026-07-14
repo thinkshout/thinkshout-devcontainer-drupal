@@ -3,10 +3,17 @@
 # Codespaces expects, so we only need to layer Drupal-specific tools on top.
 FROM mcr.microsoft.com/devcontainers/php:1-8.3-bookworm
 
+# GD requires these system libraries before the PHP extension can be compiled.
+# The base image is minimal and does not guarantee they are present.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        libpng-dev libjpeg-dev libwebp-dev libfreetype6-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 # PHP extensions Drupal needs that aren't in the base image by default.
 # (gd = image handling, zip = module installs, pdo_sqlite = our DB driver,
 # opcache = meaningfully faster page loads even in a throwaway sandbox.)
-RUN docker-php-ext-install gd zip pdo_sqlite opcache
+RUN docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype \
+    && docker-php-ext-install gd zip pdo_sqlite opcache
 
 # Composer is already in this base image, but pin it explicitly so a future
 # Composer major version bump upstream can't silently break installs here.

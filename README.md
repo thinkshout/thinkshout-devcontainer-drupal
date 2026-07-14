@@ -39,12 +39,19 @@ git commit -m "Update devcontainer"
 ## The non-dev workflow this enables
 
 1. On the GitHub repo, click **Code → Codespaces → Create codespace on main**.
-2. Wait for the one-time setup (a few minutes) — a banner prints the admin
-   username/password when it's done.
-3. Open the "Drupal site" preview tab, log in, browse to the CSS file (or
-   open it directly in the VS Code file tree under the theme's `css/` folder).
-4. Edit, save — refresh the preview tab to see the change.
-5. Use the Source Control panel (or `git checkout -b`, `git commit`, `git push`)
+2. A terminal panel opens automatically. Watch it — setup takes **3–5 minutes**
+   (Composer + Drupal install). When it finishes, a banner prints the admin
+   username and password. If the terminal closes in under 30 seconds with no
+   banner, setup failed; click the **Terminal** menu → **New Terminal** and run
+   `cat /tmp/php-server.log` to see the error.
+3. Once the banner appears, a **"Drupal site"** tab opens in the Simple Browser
+   panel (or in your browser's port-forwarding preview). If it doesn't open
+   automatically, click the **Ports** tab at the bottom, find port **8080**, and
+   click the globe icon to open it.
+4. Log in with the credentials from the banner, browse to the CSS file (or open
+   it directly in the VS Code file tree under the theme's `css/` folder).
+5. Edit, save — refresh the preview tab to see the change.
+6. Use the Source Control panel (or `git checkout -b`, `git commit`, `git push`)
    to push the change to a new branch, then click **Compare & pull request**
    on GitHub.
 
