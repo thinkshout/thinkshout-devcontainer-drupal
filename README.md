@@ -39,11 +39,12 @@ git commit -m "Update devcontainer"
 ## The non-dev workflow this enables
 
 1. On the GitHub repo, click **Code → Codespaces → Create codespace on main**.
-2. A terminal panel opens automatically. Watch it — setup takes **3–5 minutes**
-   (Composer + Drupal install). When it finishes, a banner prints the admin
-   username and password. If the terminal closes in under 30 seconds with no
-   banner, setup failed; click the **Terminal** menu → **New Terminal** and run
-   `cat /tmp/php-server.log` to see the error.
+2. Codespaces shows a **"Setting up your codespace"** notification in the bottom
+   right corner — click **"View creation log"** in that notification to watch
+   progress. Setup takes **3–5 minutes** (Composer + Drupal install). When it
+   finishes, a banner in the log prints the admin username and password.
+   If you missed the notification, open a terminal (**Terminal → New Terminal**)
+   and run `cat /tmp/setup.log` to see the full output and any errors.
 3. Once the banner appears, a **"Drupal site"** tab opens in the Simple Browser
    panel (or in your browser's port-forwarding preview). If it doesn't open
    automatically, click the **Ports** tab at the bottom, find port **8080**, and

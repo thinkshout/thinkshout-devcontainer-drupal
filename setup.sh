@@ -18,6 +18,9 @@
 
 set -euo pipefail # Exit immediately on any error, undefined variable, or failed pipe.
 
+# Tee all output to a log so it's readable after the creation panel closes.
+exec > >(tee /tmp/setup.log) 2>&1
+
 # ── Configuration ────────────────────────────────────────────────────────────
 # Adjust these to match your project's actual structure/theme name, or expose
 # them as Codespaces environment variables (Settings > Codespaces > Secrets)
