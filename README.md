@@ -25,7 +25,7 @@ N times), add this repo as a git submodule at `.devcontainer`:
 
 ```bash
 # One-time, per project:
-git submodule add https://github.com/thinkshout/drupal-codespaces-devcontainer.git .devcontainer
+git submodule add git@github.com:thinkshout/thinkshout-devcontainer-drupal.git .devcontainer
 git commit -m "Add Codespaces devcontainer"
 ```
 
