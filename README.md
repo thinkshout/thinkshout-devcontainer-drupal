@@ -1,68 +1,27 @@
-# ThinkShout Drupal Codespaces starter
+# Drupal 9 Codespaces example
 
-Drop-in `.devcontainer/` setup so a non-developer can open a project in
-**GitHub Codespaces**, get a working Drupal site with no local install, make
-a CSS change, and open a PR — all from the browser.
+Run Drupal 9 inside a Codespace for development purposes.
 
-## What's in here
+The `.devcontainer` folder contains configuration to spin up a Codespace running Apache, MySQL, PHP 8.1 and Composer, based on [Microsoft's PHP devcontainer](https://github.com/devcontainers/images/tree/main/src/php). 
 
-| File                 | Purpose                                                            |
-| -------------------- | ------------------------------------------------------------------ |
-| `Dockerfile`         | PHP 8.3, Composer, Drush — pinned versions, shared across projects. |
-| `devcontainer.json`  | Wires up the container, Node feature, forwarded port, and scripts.  |
-| `setup.sh`           | Runs once: `composer install`, installs Drupal (SQLite), prints admin login. |
-| `start-server.sh`    | Runs on every start: boots PHP's built-in webserver on port 8080.   |
+## How to use it
 
-No MySQL/MariaDB container — Drupal installs against **SQLite**, which
-removes a whole service (and its startup race conditions) from the sandbox.
-Fine for CSS/theme preview work; swap `--db-url` in `setup.sh` if a project
-later needs to test against real data.
+1. Start a Codespace, and from the terminal run `composer install` to download Drupal 9 and it's PHP dependencies. 
+2. Click the `PORTS` tab, and hover over the local address line for port 80. Click the globe icon, which will open your Drupal website in a new browser tab
 
-## Adding this to a project (submodule pattern)
+    ![Browse a drupal site in codespaces](docs/browse-a-drupal-site-in-codespaces.png)
 
-Rather than copy these files into every repo (and then having to update them
-N times), add this repo as a git submodule at `.devcontainer`:
+3. Follow the prompts to install your brand-new Drupal site
+4. Database credentials can be found in `.devcontainer/devcontainer.env`. If you haven't changed this, the database server hostname is `db`. Database name, username and password are all `drupal`.
 
-```bash
-# One-time, per project:
-git submodule add git@github.com:thinkshout/thinkshout-devcontainer-drupal.git .devcontainer
-git commit -m "Add Codespaces devcontainer"
-```
+    ![Drupal setup](docs/drupal-install-in-codespaces.png)
 
-To pick up updates later (new PHP/Node version, bug fixes) in any project:
+### Customization
 
-```bash
-git submodule update --remote .devcontainer
-git commit -m "Update devcontainer"
-```
+Replace `composer.json` with your own site's version -- one that includes whatever modules or dependencies are needed for your site.
 
-## The non-dev workflow this enables
+### Prior art
 
-1. On the GitHub repo, click **Code → Codespaces → Create codespace on main**.
-2. Codespaces shows a **"Setting up your codespace"** notification in the bottom
-   right corner — click **"View creation log"** in that notification to watch
-   progress. Setup takes **3–5 minutes** (Composer + Drupal install). When it
-   finishes, a banner in the log prints the admin username and password.
-   If you missed the notification, open a terminal (**Terminal → New Terminal**)
-   and run `cat /tmp/setup.log` to see the full output and any errors.
-3. Once the banner appears, a **"Drupal site"** tab opens in the Simple Browser
-   panel (or in your browser's port-forwarding preview). If it doesn't open
-   automatically, click the **Ports** tab at the bottom, find port **8080**, and
-   click the globe icon to open it.
-4. Log in with the credentials from the banner, browse to the CSS file (or open
-   it directly in the VS Code file tree under the theme's `css/` folder).
-5. Edit, save — refresh the preview tab to see the change.
-6. Use the Source Control panel (or `git checkout -b`, `git commit`, `git push`)
-   to push the change to a new branch, then click **Compare & pull request**
-   on GitHub.
+This example is based on the work of @alchatti. 
 
-## Notes / next steps
-
-- `setup.sh` assumes a Composer-managed Drupal site with docroot at `web/`
-  and looks for a custom theme with a `package.json` under
-  `web/themes/custom/*` — adjust `DOCROOT` / `THEME_PATH` at the top of the
-  script if a project's layout differs.
-- If a project's theme needs a different Node version, change it in
-  `devcontainer.json` under `features` rather than in the Dockerfile.
-- Consider adding a GitHub Action that lints CSS/Twig on the PR, since a
-  non-dev won't be running local linters.
+- [alchatti/drupal-devcontainer: VS Code development container environment for Drupal](https://github.com/alchatti/drupal-devcontainer). This setup includes some fancier stuff that we don't do here. It installs the Acquia tools, and it offers a couple of options for customizing the shell. 

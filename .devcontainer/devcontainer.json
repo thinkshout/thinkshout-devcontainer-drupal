@@ -1,0 +1,38 @@
+{
+  "name": "Drupal MC",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/var/www/html",
+  "shutdownAction": "stopCompose",
+
+    // Configure tool-specific properties.
+    "customizations": {
+        // Configure properties specific to VS Code.
+        "vscode": {
+            // Set *default* container specific settings.json values on container create.
+            "settings": {
+                "php.validate.executablePath": "/usr/local/bin/php"
+            },
+            // Add the IDs of extensions you want installed when the container is created.
+            "extensions": [
+                "xdebug.php-debug",
+                "bmewburn.vscode-intelephense-client",
+                "mrmlnc.vscode-apache"
+            ]
+        }
+    },
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    "forwardPorts": [
+        80,
+        3306
+    ],
+    "postCreateCommand": "sudo ./.devcontainer/postCreateCommand.sh",
+		"postStartCommand": "apache2ctl start",
+
+    // Set `remoteUser` to `root` to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+    "remoteUser": "vscode",
+    "remoteEnv": {
+    	"APACHE_SERVER_NAME": "localhost",
+    	"APACHE_DOCUMENT_ROOT": "web"
+    }
+}
